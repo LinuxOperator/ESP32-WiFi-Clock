@@ -64,7 +64,7 @@ pio device list
 ### Flash over USB:
 
 ```powershell
-python -m esptool --chip esp32c6 --port COM10 --baud 460800 wifi-clock-v1.0-esp32c6-factory.bin
+python -m esptool --chip esp32c6 --port COM10 --baud 460800 write_flash 0x0 wifi-clock-v1.0-esp32c6-factory.bin
 ```
 
 If the board does not enter flashing mode, hold the `BOOT` button while plugging it in.
