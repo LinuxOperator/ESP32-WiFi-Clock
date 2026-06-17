@@ -1,0 +1,8 @@
+.pio/
+.vscode/
+*.tmp
+*.log
+
+# Keep release binaries that are intentionally copied into releases/.
+dist/
+releases/
