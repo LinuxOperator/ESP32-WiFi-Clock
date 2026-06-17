@@ -20,13 +20,13 @@ The clock syncs time over WiFi, handles daylight saving time through timezone ru
 
 ## Hardware
 
-- ESP32-C6 Super Mini or ESP32-C3 Super Mini.
-- 4-digit TM1637 display module with `CLK`, `DIO`, `GND`, and `5V`.
-- USB-C power through the ESP32 board.
+- ESP32-C6 or C3 Super Mini.
+- 4-digit TM1637 display module (with pins `CLK`, `DIO`, `GND`, and `5V`).
+- 3D Printed case
 
 Pins used by the display:
 
-| TM1637 module | ESP32-C6 Super Mini |
+| TM1637 module | ESP32-C6/C3 Super Mini |
 | --- | --- |
 | `CLK` | GPIO6 |
 | `DIO` | GPIO7 |
@@ -37,17 +37,17 @@ See [docs/WIRING.md](docs/WIRING.md) for notes about 5V TM1637 modules and decim
 
 ## First Boot
 
-If WiFi is not configured, the clock creates an access point named `Clock Setup`.
+Configure WiFi:
+- If WiFi is not configured, the clock creates a wifi access point named `Clock Setup`.
+- Join that network from a phone or computer (it should open the captive portal automatically. If it does not, open `http://192.168.4.1`).
 
-Join that network from a phone or computer. iOS should open the captive portal automatically. If it does not, open `http://192.168.4.1`.
-
-Once the clock joins your WiFi, browse to:
+Once the clock joins your WiFi, you can access the UI by browsing to:
 
 ```text
 http://clock.local
 ```
 
-## Flash A Prebuilt Binary
+## Flash Prebuilt Binary
 
 Install esptool if you do not already have it:
 
@@ -55,41 +55,20 @@ Install esptool if you do not already have it:
 python -m pip install esptool
 ```
 
-For first-time flashing, use the factory binary that matches your board.
-
-ESP32-C6 Super Mini:
+Find The Serial Port:
 
 ```powershell
-python -m esptool --chip esp32c6 --port COM10 --baud 460800 write_flash 0x0 releases\v1.0\wifi-clock-v1.0-esp32c6-factory.bin
-```
+pio device list
 
-ESP32-C3 Super Mini:
+Flash over USB:
 
 ```powershell
-python -m esptool --chip esp32c3 --port COM10 --baud 460800 write_flash 0x0 releases\v1.0\wifi-clock-v1.0-esp32c3-factory.bin
+python -m esptool --chip esp32c6 --port COM10 --baud 460800 wifi-clock-v1.0-esp32c6-factory.bin
 ```
 
-If the board does not enter flashing mode, hold the `BOOT` button while plugging it in or while tapping `RESET`, then release `BOOT` once flashing starts.
+If the board does not enter flashing mode, hold the `BOOT` button while plugging it in.
 
 See [docs/FLASHING.md](docs/FLASHING.md) for easier script-based flashing, OTA updates, and optional build-time WiFi provisioning.
-
-## Build From Source
-
-Install PlatformIO, then build the default ESP32-C6 target:
-
-```powershell
-pio run
-pio run -t upload
-```
-
-Build a specific target:
-
-```powershell
-pio run -e esp32-c6-supermini
-pio run -e esp32-c3-supermini
-```
-
-The firmware targets 4 MB ESP32-C6 and ESP32-C3 Super Mini boards with a two-slot OTA partition layout from [partitions.csv](partitions.csv).
 
 ## Web UI
 
@@ -132,6 +111,24 @@ When connected, Home Assistant MQTT discovery creates entities for:
 - PM Indicator
 
 See [docs/MQTT_HOME_ASSISTANT.md](docs/MQTT_HOME_ASSISTANT.md).
+
+## Build From Source
+
+Install PlatformIO, then build the default ESP32-C6 target:
+
+```powershell
+pio run
+pio run -t upload
+```
+
+Build a specific target:
+
+```powershell
+pio run -e esp32-c6-supermini
+pio run -e esp32-c3-supermini
+```
+
+The firmware targets 4 MB ESP32-C6 and ESP32-C3 Super Mini boards with a two-slot OTA partition layout from [partitions.csv](partitions.csv).
 
 ## Reliability Notes
 
