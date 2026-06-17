@@ -37,7 +37,7 @@ See [docs/WIRING.md](docs/WIRING.md) for notes about 5V TM1637 modules and decim
 
 ## First Boot
 
-Configure WiFi:
+### Configure WiFi:
 - If WiFi is not configured, the clock creates a wifi access point named `Clock Setup`.
 - Join that network from a phone or computer (it should open the captive portal automatically. If it does not, open `http://192.168.4.1`).
 
@@ -49,18 +49,19 @@ http://clock.local
 
 ## Flash Prebuilt Binary
 
-Install esptool if you do not already have it:
+### Install esptool if you do not already have it:
 
 ```powershell
 python -m pip install esptool
 ```
 
-Find The Serial Port:
+### Find The Serial Port:
 
 ```powershell
 pio device list
+```
 
-Flash over USB:
+### Flash over USB:
 
 ```powershell
 python -m esptool --chip esp32c6 --port COM10 --baud 460800 wifi-clock-v1.0-esp32c6-factory.bin
