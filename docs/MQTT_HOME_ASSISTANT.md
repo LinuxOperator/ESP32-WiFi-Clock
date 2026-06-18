@@ -30,10 +30,13 @@ Home Assistant should create:
 
 | Entity | Type | Direction |
 | --- | --- | --- |
+| Display | Switch | Read/write |
 | Brightness | Number slider, `1` to `8` | Read/write |
 | Blink Colon | Switch | Read/write |
 | 24-hour Mode | Switch | Read/write |
 | PM Indicator | Switch | Read/write |
+
+Turning Display off blanks the TM1637 LEDs without changing the saved brightness level.
 
 PM Indicator is automatically turned off when 24-hour mode is enabled.
 

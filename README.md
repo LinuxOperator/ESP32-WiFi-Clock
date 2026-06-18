@@ -7,6 +7,7 @@ The clock syncs time over WiFi, handles daylight saving time through timezone ru
 ## Features
 
 - 4-digit TM1637 clock display with optional blinking colon.
+- Display on/off control that preserves the saved brightness level.
 - 12-hour mode by default, optional 24-hour mode.
 - Optional PM indicator using the rightmost decimal point when the display module wires that segment.
 - NTP time sync with automatic daylight saving time changes.
@@ -14,8 +15,9 @@ The clock syncs time over WiFi, handles daylight saving time through timezone ru
 - Captive WiFi setup portal when WiFi is not configured.
 - Five-minute boot grace period before setup mode if saved WiFi is temporarily unavailable.
 - Persistent settings in ESP32 NVS across power cycles and OTA updates.
-- Web UI for WiFi, display settings, MQTT, display test, reset, and OTA firmware upload.
-- Basic HTTP API for brightness and colon blink.
+- Web UI for WiFi, auto-saving display settings, MQTT, display test, reset, and OTA firmware upload.
+- Configurable mDNS and network hostname for multiple clocks on one network.
+- Basic HTTP API for display power, brightness, and colon blink.
 - Optional MQTT discovery for Home Assistant.
 
 ## Hardware
@@ -63,26 +65,37 @@ pio device list
 
 ### Flash over USB:
 
+ESP32-C6:
+
 ```powershell
 python -m esptool --chip esp32c6 --port COM10 --baud 460800 write_flash 0x0 wifi-clock-v1.0-esp32c6-factory.bin
 ```
 
+ESP32-C3:
+
+```powershell
+python -m esptool --chip esp32c3 --port COM10 --baud 460800 write_flash 0x0 wifi-clock-v1.0-esp32c3-factory.bin
+```
+
 If the board does not enter flashing mode, hold the `BOOT` button while plugging it in.
 
-See [docs/FLASHING.md](docs/FLASHING.md) for easier script-based flashing, OTA updates, and optional build-time WiFi provisioning.
+See [docs/FLASHING.md](docs/FLASHING.md) for more information on flashing, OTA updates, and optional build-time WiFi provisioning.
 
 ## Web UI
 
 The web UI lets you configure:
 
 - WiFi network and password.
+- Auto-saving timezone and display settings.
 - Timezone, including browser-assisted auto-detect.
 - Brightness from `1` through `8`.
+- Display on/off without changing the saved brightness.
 - Blinking or solid colon.
 - 12-hour or 24-hour display.
 - Optional PM indicator.
 - MQTT/Home Assistant settings.
 - OTA firmware upload.
+- Device information and mDNS/hostname setting.
 - Full display test.
 - Reset and reboot.
 
@@ -93,12 +106,18 @@ Briefly:
 ```http
 GET  /api/brightness
 POST /api/brightness?value=1..8
+GET  /api/display
+POST /api/display?value=on
 GET  /api/colon
 POST /api/colon?value=on
 GET  /api/settings
 ```
 
 See [docs/API.md](docs/API.md) for details.
+
+## Releases
+
+Download prebuilt factory and OTA binaries from [GitHub Releases](https://github.com/LinuxOperator/ESP32-WiFi-Clock/releases). Use factory binaries only for USB flashing. Use OTA binaries from the web UI, and choose the file for the matching ESP32-C3 or ESP32-C6 board; the web UI rejects factory, generic, and wrong-chip filenames.
 
 ## Home Assistant
 
@@ -107,6 +126,7 @@ Enable MQTT in the web UI, enter your broker host, username, and password, then 
 When connected, Home Assistant MQTT discovery creates entities for:
 
 - Brightness
+- Display
 - Blink Colon
 - 24-hour Mode
 - PM Indicator

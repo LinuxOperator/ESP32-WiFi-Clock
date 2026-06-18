@@ -44,31 +44,11 @@ Replace `COM10` with your port.
 If the board is not detected or flashing does not start:
 
 1. Hold the `BOOT` button.
-2. Plug in USB-C or tap `RESET`.
+2. Plug in USB-C (or tap `RESET`).
 3. Start the flash command.
 4. Release `BOOT` once esptool connects.
 
-Some ESP32-C6 Super Mini boards enter flashing mode automatically; others need the `BOOT` button.
-
-## Easier Windows Script
-
-The repository includes a helper:
-
-```powershell
-.\tools\flash.ps1 -Board c6 -Port COM10
-```
-
-For an ESP32-C3:
-
-```powershell
-.\tools\flash.ps1 -Board c3 -Port COM10
-```
-
-To use a different binary:
-
-```powershell
-.\tools\flash.ps1 -Port COM10 -Bin .\releases\v1.0\wifi-clock-v1.0-esp32c6-factory.bin
-```
+Some ESP32 Super Mini boards enter flashing mode automatically; others need the `BOOT` button.
 
 ## OTA Updates
 
@@ -80,6 +60,8 @@ Use the OTA binary that matches your board:
 releases/v1.0/wifi-clock-v1.0-esp32c6-ota.bin
 releases/v1.0/wifi-clock-v1.0-esp32c3-ota.bin
 ```
+
+The web UI accepts OTA filenames for the clock's chip family, such as `wifi-clock-v1.0-esp32c6-ota.bin` or `wifi-clock-v1.0-esp32c3-ota.bin`. It rejects factory binaries, generic filenames, and OTA files for the other ESP32 chip family.
 
 Settings are stored in NVS and are not erased by OTA updates.
 
