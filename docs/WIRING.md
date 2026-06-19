@@ -7,7 +7,7 @@ The firmware uses two GPIO pins for the TM1637 data link.
 | `CLK` | GPIO6 |
 | `DIO` | GPIO7 |
 | `GND` | GND |
-| `5V` | 5V / VBUS |
+| `5V` / `VCC` | 3V3 |
 
 Pins labeled `6` and `7` on the commonly sold ESP32-C6 and ESP32-C3 Super Mini boards are GPIO6 and GPIO7. Check your board's silkscreen and pinout before soldering, because clone boards can vary.
 
@@ -18,11 +18,13 @@ The pins can be changed at build time with:
 -DWIFI_CLOCK_DISPLAY_DIO=7
 ```
 
-## 5V Display Modules
+## Display Power
 
-Many TM1637 modules are sold as 5V modules. Power the display from the board's USB 5V/VBUS pin, not from a 3.3V pin.
+Many TM1637 modules are sold or silkscreened as 5V modules, but this project recommends connecting the module's `5V`/`VCC` pin to the ESP32 board's `3V3` pin.
 
-The TM1637 signal lines usually work directly from ESP32 3.3V GPIO, but module designs vary. If a module behaves unreliably, use a logic-level shifter or a TM1637 module known to work with 3.3V logic.
+In testing, the module worked reliably at 3.3V and the display became dimmer across the same firmware brightness range. Full brightness at 3.3V is still bright enough for this clock, while brightness level 1 is more usable in a dark room.
+
+Using 3.3V also keeps the TM1637 logic level aligned with the ESP32 GPIO pins. If your specific module does not start reliably at 3.3V, use a different TM1637 module known to work at 3.3V or power it from 5V with appropriate level shifting.
 
 ## Decimal Points And PM Indicator
 

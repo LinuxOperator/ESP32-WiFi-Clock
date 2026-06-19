@@ -23,7 +23,7 @@ The clock syncs time over WiFi, handles daylight saving time through timezone ru
 ## Hardware
 
 - ESP32-C6 or C3 Super Mini.
-- 4-digit TM1637 display module (with pins `CLK`, `DIO`, `GND`, and `5V`).
+- 4-digit TM1637 display module (with pins `CLK`, `DIO`, `GND`, and `5V`/`VCC`).
 - 3D Printed case
 
 Pins used by the display:
@@ -33,9 +33,9 @@ Pins used by the display:
 | `CLK` | GPIO6 |
 | `DIO` | GPIO7 |
 | `GND` | GND |
-| `5V` | 5V / VBUS |
+| `5V` / `VCC` | 3V3 |
 
-See [docs/WIRING.md](docs/WIRING.md) for notes about 5V TM1637 modules and decimal points.
+Even if the display PCB labels the power pin as `5V`, this project recommends powering the TM1637 module from `3V3`. It is still bright, gives better low-brightness range, and keeps the display logic level aligned with the ESP32 GPIO. See [docs/WIRING.md](docs/WIRING.md) for details.
 
 ## First Boot
 
