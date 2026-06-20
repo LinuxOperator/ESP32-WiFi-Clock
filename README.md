@@ -1,4 +1,5 @@
 # WiFi Clock
+![Clock Photos](https://i.imgur.com/lH6tMip.jpeg)
 
 ESP32-C6 and ESP32-C3 firmware for a simple, reliable WiFi clock using a 4-digit TM1637 display.
 
@@ -6,19 +7,16 @@ The clock syncs time over WiFi, handles daylight saving time through timezone ru
 
 ## Features
 
-- 4-digit TM1637 clock display with optional blinking colon.
-- Display on/off control that preserves the saved brightness level.
-- 12-hour mode by default, optional 24-hour mode.
-- Optional PM indicator using the rightmost decimal point when the display module wires that segment.
-- NTP time sync with automatic daylight saving time changes.
-- Default timezone: Denver / Mountain Time.
-- Captive WiFi setup portal when WiFi is not configured.
-- Five-minute boot grace period before setup mode if saved WiFi is temporarily unavailable.
-- Persistent settings in ESP32 NVS across power cycles and OTA updates.
-- Web UI for WiFi, auto-saving display settings, MQTT, display test, reset, and OTA firmware upload.
-- Configurable mDNS and network hostname for multiple clocks on one network.
-- Basic HTTP API for display power, brightness, and colon blink.
-- Optional MQTT discovery for Home Assistant.
+- Adjustable brightness and display settings
+- Auto-detect timezone with automatic NTP time sync
+- Configurable mDNS and network hostname
+- Captive WiFi setup portal
+- Web UI and a basic API
+- MQTT support for use with Home Assistant
+- OTA firmware upload
+
+![Web UI](https://i.imgur.com/447F4Nl.png)
+
 
 ## Hardware
 
@@ -81,23 +79,20 @@ If the board does not enter flashing mode, hold the `BOOT` button while plugging
 
 See [docs/FLASHING.md](docs/FLASHING.md) for more information on flashing, OTA updates, and optional build-time WiFi provisioning.
 
-## Web UI
+## Home Assistant
 
-The web UI lets you configure:
+Enable MQTT in the web UI, enter your broker host, username, and password, then press `Save and test MQTT`.
 
-- WiFi network and password.
-- Auto-saving timezone and display settings.
-- Timezone, including browser-assisted auto-detect.
-- Brightness from `1` through `8`.
-- Display on/off without changing the saved brightness.
-- Blinking or solid colon.
-- 12-hour or 24-hour display.
-- Optional PM indicator.
-- MQTT/Home Assistant settings.
-- OTA firmware upload.
-- Device information and mDNS/hostname setting.
-- Full display test.
-- Reset and reboot.
+When connected, Home Assistant MQTT discovery creates entities for:
+
+- Brightness
+- Display
+- Blink Colon
+- 24-hour Mode
+- PM Indicator
+
+![Home Assistant](https://i.imgur.com/0d7r4NQ.png)
+
 
 ## API
 
@@ -118,20 +113,6 @@ See [docs/API.md](docs/API.md) for details.
 ## Releases
 
 Download prebuilt factory and OTA binaries from [GitHub Releases](https://github.com/LinuxOperator/ESP32-WiFi-Clock/releases). Use factory binaries only for USB flashing. Use OTA binaries from the web UI, and choose the file for the matching ESP32-C3 or ESP32-C6 board; the web UI rejects factory, generic, and wrong-chip filenames.
-
-## Home Assistant
-
-Enable MQTT in the web UI, enter your broker host, username, and password, then press `Save and test MQTT`.
-
-When connected, Home Assistant MQTT discovery creates entities for:
-
-- Brightness
-- Display
-- Blink Colon
-- 24-hour Mode
-- PM Indicator
-
-See [docs/MQTT_HOME_ASSISTANT.md](docs/MQTT_HOME_ASSISTANT.md).
 
 ## Build From Source
 
