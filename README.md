@@ -5,6 +5,14 @@ ESP32-C6 and ESP32-C3 firmware for a simple, reliable WiFi clock using a 4-digit
 
 The clock syncs time over WiFi, handles daylight saving time through timezone rules, serves a local web UI at `http://clock.local`, supports browser firmware updates, and can expose controls to Home Assistant over MQTT.
 
+## 3D Printable Case
+
+A 3D printable case for this clock is available on Printables:
+
+https://www.printables.com/model/1760735
+
+The Printables post includes the case files and an overview of the hardware needed to assemble the clock.
+
 ## Features
 
 - Adjustable brightness and display settings
